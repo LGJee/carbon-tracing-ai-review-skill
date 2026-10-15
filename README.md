@@ -1,40 +1,56 @@
 # Carbon Tracing AI Review Skill
 
-A Codex skill for reviewing flagged reactions in step-2 Excel workbooks from
-[Atom-Mapped Carbon Tracing](https://github.com/LGJee/atom-mapped-carbon-tracing).
-It uses the separate
-[Enzymatic Atom Mapping skill](https://github.com/LGJee/enzymatic-atom-mapping-skill)
-for evidence-based biochemical analysis, then validates and saves accepted
-mapping replacements. It does not replace that scientific skill or the carbon
-tracing project.
+A Codex skill that reviews flagged atom mappings from
+[Atom-Mapped Carbon Tracing](https://github.com/LGJee/atom-mapped-carbon-tracing)
+and saves reviewed Excel copies with a detailed report.
 
-## Install and use
+## Install with AI (recommended)
 
-Install this repository as a Codex skill, together with its scientific dependency.
-For a standard installation, their entry files are:
+Copy this one-line instruction into Codex:
 
 ```text
-~/.codex/skills/carbon-tracing-ai-review-skill/SKILL.md
-~/.codex/skills/enzymatic-atom-mapping/SKILL.md
+$skill-installer Install https://github.com/LGJee/carbon-tracing-ai-review-skill and its required enzymatic-atom-mapping skill.
 ```
 
-With Git available, these commands install into those locations when the target
-directories do not already exist:
+The required dependency is
+[Enzymatic Atom Mapping](https://github.com/LGJee/enzymatic-atom-mapping-skill).
+Codex can handle the download and installation paths. Keep existing installations
+unless an update is needed. If the skills do not appear, restart Codex.
+See the [official skill installation guidance](https://learn.chatgpt.com/docs/build-skills#install-curated-skills-for-local-use).
+
+<details>
+<summary>Manual installation (optional)</summary>
+
+Clone both repositories into the user skill directory supported by your Codex
+installation. Current versions use `~/.agents/skills`:
 
 ```bash
+mkdir -p ~/.agents/skills
 git clone https://github.com/LGJee/carbon-tracing-ai-review-skill.git \
-  ~/.codex/skills/carbon-tracing-ai-review-skill
+  ~/.agents/skills/carbon-tracing-ai-review-skill
 git clone https://github.com/LGJee/enzymatic-atom-mapping-skill.git \
-  ~/.codex/skills/enzymatic-atom-mapping
+  ~/.agents/skills/enzymatic-atom-mapping
 ```
 
-Give Codex one or more `<model>_2_atom_mapping.xlsx` files and invoke:
+Use the configured skill directory instead if your installation differs. Do not
+overwrite existing directories without checking their contents.
+
+</details>
+
+## Use
+
+Attach one or more `<model>_2_atom_mapping.xlsx` files and send:
 
 ```text
 $carbon-tracing-ai-review-skill
-Review these step-2 workbooks. My carbon-tracing project is at <project path>.
-Save the reviewed copies and detailed report to its configured results directory.
+Review these files and save the reviewed copies and report to my project's results directory.
 ```
+
+Provide your project path if Codex cannot locate it. Installing the skills does
+not install the carbon-tracing project or its Python environment.
+
+<details>
+<summary>Runtime requirements</summary>
 
 Use a compatible local or published tracing project. The helper checks its actual
 interfaces; a repository name alone does not establish compatibility. Review
@@ -43,6 +59,8 @@ validator. Integrated validation also uses the project's existing dependencies.
 No mapper models or mapper predictions are required by this review helper.
 Structural review can proceed without a compatible project, with integration
 explicitly reported as unchecked.
+
+</details>
 
 ## Review and output
 

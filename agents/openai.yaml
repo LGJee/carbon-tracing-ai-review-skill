@@ -1,0 +1,3 @@
+interface:
+  display_name: "Carbon Tracing AI Review"
+  short_description: "Review flagged carbon-mapping Excel workbooks"

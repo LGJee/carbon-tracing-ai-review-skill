@@ -11,8 +11,12 @@ examples use shell variables supplied by the agent, not hard-coded machine paths
   --project "$PROJECT_DIR" > review_targets.json
 
 "$TRACING_PYTHON" "$SKILL_DIR/scripts/review_workbooks.py" apply proposals.json \
-  --project "$PROJECT_DIR" --output-dir /path/to/results > review_report.json
+  --project "$PROJECT_DIR" --output-dir "$CASE_OUTPUT_DIR" > review_report.json
 ```
+
+`CASE_OUTPUT_DIR` is the selected analysis plan's resolved output directory,
+for example `$PROJECT_DIR/results/results_by_AI/my_analysis`. Supply it for
+custom cases; the fallback may use the publication plan.
 
 The helper locates a project only in the explicit directory or input/workspace
 ancestors. The scientific validator defaults to the sibling installed skill
@@ -98,7 +102,7 @@ outside intended edits, including Mapping_Info and raw prediction scores.
 Only Final_Mapping may change. Mapping_Selection remains the original tool
 comparison/selection record, including SelectionReason and its selected SMILES.
 The AI-reviewed Final_Mapping may therefore differ from Mapping_Selection;
-step 4 reads Final_Mapping. Keep scientific rationale and evidence in the report
+step 3 Enumeration reads Final_Mapping. Keep scientific rationale and evidence in the report
 and immutable archive instead of synchronizing them into the selection sheet.
 
 ReviewRequired is preserved, so a future run may still target an AI-assisted
@@ -162,14 +166,17 @@ When the user requests it, place reviewed copies in the analysis plan's output
 directory and run from the compatible project root:
 
 ```bash
-python3 step4_carbon_flow_ai.py
-python3 step4_carbon_flow_ai.py MyCulture --rounds 1
+python3 step3_carbon_flow.py
+python3 step3_carbon_flow.py MyCulture --rounds 1
 ```
 
-The current interface reads available `<model>_2_atom_mapping_AIGenerated.xlsx`
-files for models in the plan and writes `<model>_3_carbon_flow_AIGenerated.xlsx`.
-It reuses step 3 settings and implementation; it performs no AI review or mapper
-prediction. Model names, input hashes and ordered sources must still match the
+Enumeration reads available ordinary and `<model>_2_atom_mapping_AIGenerated.xlsx`
+files for models in the plan and writes separate
+`<model>_3_carbon_flow_Enumeration.xlsx` and
+`<model>_3_carbon_flow_Enumeration_AIGenerated.xlsx`. It performs no AI review or
+mapper prediction. A separate step4 and method selector are not required.
+Either mapping version may exist alone. Model names, input hashes and ordered
+sources must still match the
 plan. Original step-2 and ordinary step-3 outputs remain separate. Inspect actual
 installed interfaces before invoking; older versions may lack this entry.
 
@@ -181,5 +188,5 @@ installed interfaces before invoking; older versions may lack this entry.
 ```
 
 These tests create and remove temporary synthetic workbooks, check preservation
-and validation failures, and exercise the existing step-4 code path. They do not
+and validation failures, and exercise the current step-3 Enumeration code path. They do not
 review real reactions or change project results.

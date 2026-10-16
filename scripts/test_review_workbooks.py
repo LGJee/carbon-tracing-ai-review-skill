@@ -385,14 +385,13 @@ class WorkbookTests(unittest.TestCase):
         report = self.apply([proposal("r1")])
         self.assertEqual(report["accepted"], 0)
 
-    def test_written_copy_is_consumed_by_existing_step4_path(self):
+    def test_written_copy_is_consumed_by_step3_enumeration(self):
         report = self.apply([proposal("r1", SWAPPED), proposal("r2")])
         from carbon_flow_tools import pipeline
         from carbon_flow_tools.cli import main
         from carbon_flow_tools.atom_helpers import assignment_from_labeled_smiles
 
         options = dict(
-            ai_generated=True,
             input_dir=str(self.folder / "reviewed"),
             output_dir=str(self.folder / "reviewed"),
             rounds=1,
@@ -406,7 +405,7 @@ class WorkbookTests(unittest.TestCase):
         ):
             with redirect_stdout(StringIO()):
                 self.assertEqual(main("trace", options, []), 0)
-        output = self.folder / "reviewed/Mixed_Culture_3_carbon_flow_AIGenerated.xlsx"
+        output = self.folder / "reviewed/Mixed_Culture_3_carbon_flow_Enumeration_AIGenerated.xlsx"
         workbook = load_workbook(output)
         try:
             self.assertEqual(workbook.sheetnames, ["Summary", "Carbon_Flow_R1"])

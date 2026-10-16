@@ -1,6 +1,6 @@
 ---
 name: carbon-tracing-ai-review-skill
-description: Review flagged reactions in atom-mapped-carbon-tracing step-2 Excel workbooks, delegate biochemical analysis to enzymatic-atom-mapping, and save validated AI-assisted mapping copies for optional step-4 propagation.
+description: Review flagged reactions in atom-mapped-carbon-tracing step-2 Excel workbooks, delegate biochemical analysis to enzymatic-atom-mapping, and save validated AI-assisted mapping copies for optional step-3 Enumeration.
 ---
 
 # Carbon Tracing AI Review
@@ -32,7 +32,7 @@ trained model is needed for this review helper. The helper uses the scientific
 skill's validator and the project's existing readers, `mapping_signatures` and
 save helper when available. If the project is unavailable, structural review can
 still use the scientific validator; report project integration as unchecked.
-Missing step 4 alone does not block workbook delivery.
+Missing a propagation entry alone does not block workbook delivery.
 
 ## Extract and review
 
@@ -99,7 +99,11 @@ not mark unchanged reactions as AI-generated. Keep raw predictions, scores,
 support diagnostics, copied input/structure tables and hidden Mapping_Info,
 especially SourceInputSHA256. Avoid decorative sheets, colors and filters.
 
-Choose the configured results directory when available. Otherwise deliver files
+Choose the selected analysis plan's output directory when available and pass it
+explicitly to apply with `--output-dir`. For a custom case such as
+`results/results_by_AI/<name>/`, do not rely on the helper fallback to the
+project's default publication plan. Keep reports and copies in the same case
+directory, without another results subfolder. Otherwise deliver files
 from an accessible output directory and tell the user where to place them in
 their project. Preserve the input workbooks and existing completed outputs.
 Do not silently replace an existing same-named AI workbook; use another delivery
@@ -118,8 +122,11 @@ archive errors explicitly. Give the user the readable report path.
 
 ## Optional propagation and delivery
 
-Only when requested, confirm a compatible project, environment, analysis plan
-and `step4_carbon_flow_ai.py`, then invoke the project's existing entry. Never
+Only when requested, confirm a compatible project, environment and analysis plan,
+then use `step3_carbon_flow.py`. It processes available original/AI mappings
+separately and writes `<model>_3_carbon_flow_Enumeration_AIGenerated.xlsx` for
+reviewed copies. No method flag is needed. Inspect older project interfaces
+before selecting a command. Never
 bundle another propagation implementation. Missing integration requires an
 explanation, not a success claim. The handoff reference documents file naming
 and plan/hash checks.

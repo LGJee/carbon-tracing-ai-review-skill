@@ -799,6 +799,9 @@ def main(argv=None):
                         issues=issues,
                         cache_issues=cache_issues,
                         project=str(project) if project else None,
+                        step3_available=bool(
+                            project and (project / "step3_carbon_flow.py").is_file()
+                        ),
                         step4_available=bool(
                             project and (project / "step4_carbon_flow_ai.py").is_file()
                         ),

@@ -113,13 +113,22 @@ Review and delivery do not automatically run carbon propagation. When explicitly
 requested, a compatible tracing checkout can consume the reviewed copies with:
 
 ```bash
-python3 step4_carbon_flow_ai.py
-python3 step4_carbon_flow_ai.py MyCulture --rounds 1
+python3 step3_carbon_flow.py
+python3 step3_carbon_flow.py MyCulture --rounds 1
 ```
 
-Step 4 reads the reviewed `Final_Mapping` using the project's existing propagation
-implementation. Model names, input hashes and ordered carbon sources must match
-the analysis plan. A missing step-4 entry does not prevent workbook delivery.
+Step 3 reads available ordinary and AI-reviewed mappings independently and writes
+separate `_3_carbon_flow_Enumeration.xlsx` and
+`_3_carbon_flow_Enumeration_AIGenerated.xlsx` outputs. Use `--plan` for a custom
+analysis. Model names, input hashes and ordered carbon sources must match the
+analysis plan. No method selector or separate step4 is needed. A missing
+propagation entry does not prevent workbook delivery.
+
+Newer project interfaces also copy saved result Summaries into
+`carbon_flow_summary.xlsx`, one sheet per workbook. That collection may include
+older saved results; use `carbon_flow_run.json` to identify current-run outputs.
+Inspect the installed project interface; this skill update does not publish or
+upgrade the main computation project.
 
 ## Helper interface and checks
 
@@ -138,7 +147,9 @@ Run the isolated regression suite with your compatible tracing interpreter:
 
 The publication check on 2026-10-15 passed 19 synthetic tests covering flags,
 input hashes, rejected proposals, original-sheet preservation, review-only
-copies, report counts, archives and the existing step-4 path. These tests do not
+copies, report counts, archives and the then-current propagation handoff.
+On 2026-10-17 the same 19-test suite passed against the maintained step-3
+Enumeration interface, including a reviewed mapping consumed without a mapper. These tests do not
 establish biochemical accuracy. Bookkeeping validation and AI provenance do not
 certify experimental correctness. Carbon propagation describes possible origin
 label reachability, not isotope abundance or quantitative carbon allocation.
